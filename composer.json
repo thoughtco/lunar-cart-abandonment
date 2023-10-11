@@ -1,0 +1,39 @@
+{
+  "name": "thoughtco/lunar-cart-abandonment",
+  "description": "Lunar Cart Abandonment Addon",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+      {
+        "name": "Ryan Mitchell",
+        "homepage": "https://www.thoughtcollective.com/"
+      }
+  ],
+  "autoload": {
+      "psr-4": {
+          "Thoughtco\\LunarCartAbandonment\\": "src"
+      }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "Thoughtco\\LunarCartAbandonment\\Tests\\": "tests"
+      }
+  },
+  "extra": {
+      "lunar": {
+        "name": "Cart Abandonment"
+      },
+      "laravel": {
+          "providers": [
+              "Thoughtco\\LunarCartAbandonment\\ServiceProvider"
+          ]
+      }
+  },
+  "require": {
+      "php": "^8.0"
+  },
+  "require-dev": {
+      "orchestra/testbench": "^6.0|^7.0",
+      "phpunit/phpunit": "^9.5"
+  }
+}

@@ -1,6 +1,6 @@
 ## Lunar Cart Abandonment
 
-An simple add-on for Lunar that triggers cart jobs based on how long a cart has been inactive for.
+An simple add-on for Lunar that triggers jobs based on how long a cart has been inactive for.
 
 ## Installation
 

@@ -61,10 +61,11 @@ class CartAbandonment extends Command
                 $dateToUse = $latestCartLine->isAfter($cart->updated_at) ? $latestCartLine : $cart->updated_at;
                 
                 $inactivityInterval = $dateToUse->diffInSeconds($now);
-                
+                                                                
                 foreach ($triggers as $trigger) {
+                                        
                     if ($inactivityInterval <= $trigger['interval_begin'] && $inactivityInterval >= $trigger['interval']) {
-                        $job = app($trigger['job']);
+                        $job = $trigger['job']::dispatch($cart, $trigger['config'] ?? []);
                         
                         if ($queue = $trigger['queue'] ?? false) {
                             $job->onQueue($queue);
@@ -73,8 +74,6 @@ class CartAbandonment extends Command
                         if ($connection = $trigger['queue_connection'] ?? false) {
                             $job->onConnection($connection);
                         }                        
-                        
-                        $job->dispatch($cart, $trigger['config'] ?? []);
                     }        
                 }
                 

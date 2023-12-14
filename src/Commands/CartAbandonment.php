@@ -41,6 +41,7 @@ class CartAbandonment extends Command
         $this->info('Beginning cart abandonment checks');
         
         $triggers = config('lunar.cart_abandonment.triggers', []);
+        $channels = config('lunar.cart_abandonment.channels', ['*']);
         
         if (! $triggers) {
             return;
@@ -48,11 +49,13 @@ class CartAbandonment extends Command
         
         $now = now();
         foreach ($triggers as $index => $trigger) {
-            $triggers[$index]['interval_begin'] = $trigger['interval'] + (config('lunar.cart_abandonment.schedule_interval', 5) * 60) - 1;
+            $triggers[$index]['interval'] *= 60;
+            $triggers[$index]['interval_begin'] = $triggers[$index]['interval'] + (config('lunar.cart_abandonment.schedule_interval', 5) * 60) - 1;
         }
                 
         Cart::query()
             ->active()
+            ->when(! in_array($channels, '*'), fn ($query) => $query->whereIn('channel_id', $channels));
             ->get()
             ->map(function ($cart) use ($now, $triggers) {
                 

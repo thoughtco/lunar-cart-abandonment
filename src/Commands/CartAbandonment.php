@@ -55,7 +55,7 @@ class CartAbandonment extends Command
                 
         Cart::query()
             ->active()
-            ->when(! in_array($channels, '*'), fn ($query) => $query->whereIn('channel_id', $channels))
+            ->when(! in_array('*', $channels), fn ($query) => $query->whereIn('channel_id', $channels))
             ->get()
             ->map(function ($cart) use ($now, $triggers) {
                 

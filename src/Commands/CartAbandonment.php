@@ -44,7 +44,7 @@ class CartAbandonment extends Command
         $channels = config('lunar.cart_abandonment.channels', ['*']);
         
         if (is_callable($triggers)) {
-            $triggers = call_user_func($triggers);
+            $triggers = call_user_func($triggers, $channels);
         }
         
         if (! $triggers) {

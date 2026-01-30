@@ -31,6 +31,29 @@ You define triggers by adding new arrays to the `triggers` key in the config fil
         ],  
 ```
 
+alternatively you can define a callable that returns an array of triggers.
+
+```php
+'triggers' => [\App\Classes\CartAbandonmentTriggers::class, 'handle']
+```
+
+```php
+class CartAbandonmentTriggers
+{
+    public static function handle()
+    {
+        return [
+            [
+                'interval' => 5, // minutes
+                'job' => \App\Jobs\CartAbandonment::class,
+                'queue' => 'default', // optional
+                'queue_connection' => 'redis', // optional
+                'config' => [], // this will be passed to your job along with the cart
+            ]
+        ];
+    }
+```
+
 Your job should expect 2 arguments, `$cart` and `$config`.
 
 If you don't want the scheduled task to run every 5 minutes, you can change the frequency by using the `schedule_interval` config setting.

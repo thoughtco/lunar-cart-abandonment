@@ -2,6 +2,10 @@
 
 return [
     
+    'class' => \App\Classes\CartAbandonment::class,
+        
+    'function' => 'handle',
+    
     'channels' => explode(',', env('LUNAR_CART_ABANDONMENT_CHANNELS', '*')),
     
     'schedule_interval' => 5, // how often to run the task

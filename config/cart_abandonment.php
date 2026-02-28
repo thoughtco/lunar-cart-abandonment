@@ -2,7 +2,9 @@
 
 return [
     'channels' => explode(',', env('LUNAR_CART_ABANDONMENT_CHANNELS', '*')),
-    
+
+    'enabled' => env('LUNAR_CART_ABANDONMENT_ENABLED', true),
+
     'schedule_interval' => 5, // how often to run the task
 
     'triggers' => [

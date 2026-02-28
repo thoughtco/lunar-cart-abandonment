@@ -38,6 +38,10 @@ class CartAbandonment extends Command
      */
     public function handle()
     {
+        if (config('lunar.cart_abandonment.enabled', false)) {
+            return 0;
+        }
+
         $this->info('Beginning cart abandonment checks');
 
         $triggers = config('lunar.cart_abandonment.triggers', []);

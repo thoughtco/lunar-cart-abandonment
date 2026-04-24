@@ -72,10 +72,12 @@ class CartAbandonment extends Command
             ->when(! in_array('*', $channels), fn ($query) => $query->whereIn('channel_id', $channels))
             ->whereHas('lines', fn ($query) => $query->where('updated_at', '>=', $now()->clone()->subSeconds($maxIntervalAgo)))
             ->get()
-            ->map(function ($cart) use ($now, $triggers) {
-                $latestCartLine = $cart->lines->sortByDesc('updated_at')->first()?->updated_at ?? now()->subDays(30);
+            ->each(function ($cart) use ($now, $triggers) {
+                if (! $latestCartLine = $cart->lines->sortByDesc('updated_at')->first()) {
+                    return;
+                }
 
-                $dateToUse = $latestCartLine->isAfter($cart->updated_at) ? $latestCartLine : $cart->updated_at;
+                $dateToUse = $latestCartLine->updated_at->isAfter($cart->updated_at) ? $latestCartLine->updated_at : $cart->updated_at;
                 
                 $inactivityInterval = $dateToUse->diffInSeconds($now);
                                                                 
